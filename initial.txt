@@ -1,0 +1,20 @@
+AutoKL size: 79.779MB
+FM size: 146.007MB
+Exp path: ./saved_info/latent_flow/celeba_256/celeb256_f8_adm
+epoch 0 iteration0, Loss: 1.7400327920913696, Train Steps/Sec: 0.16
+epoch 0 iteration100, Loss: 1.2889912128448486, Train Steps/Sec: 1.12
+epoch 0 iteration200, Loss: 1.1166406869888306, Train Steps/Sec: 1.10
+Finish sampling
+Saving content.
+epoch 1 iteration0, Loss: 1.0530102252960205, Train Steps/Sec: 0.93
+epoch 1 iteration100, Loss: 1.0027313232421875, Train Steps/Sec: 1.10
+epoch 1 iteration200, Loss: 0.9088268876075745, Train Steps/Sec: 1.09
+epoch 2 iteration0, Loss: 0.8866989016532898, Train Steps/Sec: 1.06
+epoch 2 iteration100, Loss: 0.8422887325286865, Train Steps/Sec: 1.09
+epoch 2 iteration200, Loss: 0.8150993585586548, Train Steps/Sec: 1.09
+epoch 3 iteration0, Loss: 0.8112205862998962, Train Steps/Sec: 1.07
+epoch 3 iteration100, Loss: 0.8285213112831116, Train Steps/Sec: 1.09
+epoch 3 iteration200, Loss: 0.8190950155258179, Train Steps/Sec: 1.09
+epoch 4 iteration0, Loss: 0.7916458249092102, Train Steps/Sec: 1.07
+epoch 4 iteration100, Loss: 0.793782114982605, Train Steps/Sec: 1.09
+epoch 4 iteration200, Loss: 0.7640345096588135, Train Steps/Sec: 1.09

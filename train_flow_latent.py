@@ -85,10 +85,23 @@ def train(args):
 
     if args.use_ema:
         optimizer = EMA(optimizer, ema_decay=args.ema_decay)
+        
+    # if isinstance(optimizer, EMA):
+    #     optimizer.swap_parameters_with_ema(store_params_in_ema=True)
+    # else:
+    #     print(f"Optimizer is not an EMA instance, it is: {type(optimizer)}")
+        
 
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, args.num_epoch, eta_min=1e-5)
 
-    data_loader, model, optimizer, scheduler = accelerator.prepare(data_loader, model, optimizer, scheduler)
+    data_loader, model, optimizer_, scheduler = accelerator.prepare(data_loader, model, optimizer, scheduler)
+    
+    optimizer= optimizer_.optimizer
+    
+    if isinstance(optimizer, EMA):
+        optimizer.swap_parameters_with_ema(store_params_in_ema=True)
+    else:
+        print(f"Optimizer is not an EMA instance, it is: {type(optimizer)}")
 
     exp = args.exp
     parent_dir = "./saved_info/latent_flow/{}".format(args.dataset)

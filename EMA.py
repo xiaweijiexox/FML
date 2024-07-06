@@ -98,29 +98,40 @@ from torch.optim import Optimizer
 import warnings
 from typing import Callable, Optional
 
+import torch
+from torch.optim import Optimizer
+
 class EMA(Optimizer):
     def __init__(self, opt, ema_decay):
-        # Ensure defaults is a dictionary
-        defaults = {"ema_decay": ema_decay}
-
-        # Initialize the parent class (Optimizer)
-        super(EMA, self).__init__(opt.param_groups, defaults)
-
         self.ema_decay = ema_decay
         self.apply_ema = self.ema_decay > 0.0
         self.optimizer = opt
         self.state = opt.state
         self.param_groups = opt.param_groups
-        self.defaults = defaults
+        self.defaults = opt.defaults  # 添加这行以包含 defaults
         self._optimizer_state_dict_pre_hooks = {}
         self._optimizer_state_dict_post_hooks = {}
         self._optimizer_load_state_dict_pre_hooks = {}
         self._optimizer_load_state_dict_post_hooks = {}
 
+        # Initialize EMA state for all parameters
+        for group in self.optimizer.param_groups:
+            for p in group["params"]:
+                if p.requires_grad:
+                    state = self.optimizer.state[p]
+                    if "ema" not in state:
+                        state["ema"] = p.data.clone()
+                    # 初始化AdamW优化器的状态
+                    if "exp_avg" not in state:
+                        state["exp_avg"] = torch.zeros_like(p.data, memory_format=torch.preserve_format)
+                    if "exp_avg_sq" not in state:
+                        state["exp_avg_sq"] = torch.zeros_like(p.data, memory_format=torch.preserve_format)
+                    if "step" not in state:
+                        state["step"] = torch.tensor(0.0)
+
     def step(self, *args, **kwargs):
         retval = self.optimizer.step(*args, **kwargs)
 
-        # stop here if we are not applying EMA
         if not self.apply_ema:
             return retval
 
@@ -131,7 +142,6 @@ class EMA(Optimizer):
                     continue
                 state = self.optimizer.state[p]
 
-                # State initialization
                 if "ema" not in state:
                     state["ema"] = p.data.clone()
 
@@ -158,16 +168,10 @@ class EMA(Optimizer):
 
     def load_state_dict(self, state_dict):
         super(EMA, self).load_state_dict(state_dict)
-        # load_state_dict loads the data to self.state and self.param_groups. We need to pass this data to
-        # the underlying optimizer too.
         self.optimizer.state = self.state
         self.optimizer.param_groups = self.param_groups
 
     def swap_parameters_with_ema(self, store_params_in_ema):
-        """This function swaps parameters with their ema values. It records original parameters in the ema
-        parameters, if store_params_in_ema is true."""
-
-        # stop here if we are not applying EMA
         if not self.apply_ema:
             warnings.warn("swap_parameters_with_ema was called when there is no EMA weights.")
             return
@@ -176,10 +180,15 @@ class EMA(Optimizer):
             for i, p in enumerate(group["params"]):
                 if not p.requires_grad:
                     continue
-                ema = self.optimizer.state[p]["ema"]
+                state = self.optimizer.state[p]
+
+                if "ema" not in state:
+                    raise KeyError(f"'ema' not found in the state of parameter {p}")
+
+                ema = state["ema"]
                 if store_params_in_ema:
                     tmp = p.data.detach()
                     p.data = ema.detach()
-                    self.optimizer.state[p]["ema"] = tmp
+                    state["ema"] = tmp
                 else:
                     p.data = ema.detach()
