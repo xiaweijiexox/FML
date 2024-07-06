@@ -83,6 +83,8 @@ def sample_from_model(model, x_0):
     fake_image = odeint(model, x_0, t, atol=1e-5, rtol=1e-5, adjoint_params=model.func.parameters())
     return fake_image
 
+log_dir = "/home/tsinghuaair/xwj/LFM/logs"
+writer = SummaryWriter(log_dir=log_dir)
 
 # %%
 def train(args):
