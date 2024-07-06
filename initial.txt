@@ -18,3 +18,40 @@ epoch 3 iteration200, Loss: 0.8190950155258179, Train Steps/Sec: 1.09
 epoch 4 iteration0, Loss: 0.7916458249092102, Train Steps/Sec: 1.07
 epoch 4 iteration100, Loss: 0.793782114982605, Train Steps/Sec: 1.09
 epoch 4 iteration200, Loss: 0.7640345096588135, Train Steps/Sec: 1.09
+epoch 5 iteration0, Loss: 0.7867352962493896, Train Steps/Sec: 1.07
+epoch 5 iteration100, Loss: 0.7687143683433533, Train Steps/Sec: 1.09
+epoch 5 iteration200, Loss: 0.7889440059661865, Train Steps/Sec: 1.09
+Finish sampling
+epoch 6 iteration0, Loss: 0.7682744860649109, Train Steps/Sec: 1.03
+epoch 6 iteration100, Loss: 0.7455301880836487, Train Steps/Sec: 1.09
+epoch 6 iteration200, Loss: 0.7481295466423035, Train Steps/Sec: 1.09
+epoch 7 iteration0, Loss: 0.727720320224762, Train Steps/Sec: 1.06
+epoch 7 iteration100, Loss: 0.7454374432563782, Train Steps/Sec: 1.09
+epoch 7 iteration200, Loss: 0.7599047422409058, Train Steps/Sec: 1.09
+epoch 8 iteration0, Loss: 0.7419552206993103, Train Steps/Sec: 1.07
+epoch 8 iteration100, Loss: 0.7278144359588623, Train Steps/Sec: 1.09
+epoch 8 iteration200, Loss: 0.7458103895187378, Train Steps/Sec: 1.09
+epoch 9 iteration0, Loss: 0.7395802140235901, Train Steps/Sec: 1.07
+epoch 9 iteration100, Loss: 0.715553879737854, Train Steps/Sec: 1.10
+epoch 9 iteration200, Loss: 0.7595943808555603, Train Steps/Sec: 1.09
+epoch 10 iteration0, Loss: 0.7044106125831604, Train Steps/Sec: 1.07
+epoch 10 iteration100, Loss: 0.7051441669464111, Train Steps/Sec: 1.09
+epoch 10 iteration200, Loss: 0.7419716119766235, Train Steps/Sec: 1.09
+Finish sampling
+Saving content.
+epoch 11 iteration0, Loss: 0.75583815574646, Train Steps/Sec: 0.94
+epoch 11 iteration100, Loss: 0.7283162474632263, Train Steps/Sec: 1.09
+epoch 11 iteration200, Loss: 0.7477816343307495, Train Steps/Sec: 1.09
+epoch 12 iteration0, Loss: 0.7305735349655151, Train Steps/Sec: 1.06
+epoch 12 iteration100, Loss: 0.7086231112480164, Train Steps/Sec: 1.09
+epoch 12 iteration200, Loss: 0.7372949123382568, Train Steps/Sec: 1.09
+epoch 13 iteration0, Loss: 0.7216172814369202, Train Steps/Sec: 1.06
+epoch 13 iteration100, Loss: 0.7524636387825012, Train Steps/Sec: 1.09
+epoch 13 iteration200, Loss: 0.7164583802223206, Train Steps/Sec: 1.09
+epoch 14 iteration0, Loss: 0.7407205104827881, Train Steps/Sec: 1.07
+epoch 14 iteration100, Loss: 0.69834303855896, Train Steps/Sec: 1.09
+epoch 14 iteration200, Loss: 0.7215299010276794, Train Steps/Sec: 1.09
+epoch 15 iteration0, Loss: 0.7192071080207825, Train Steps/Sec: 1.07
+epoch 15 iteration100, Loss: 0.7107565402984619, Train Steps/Sec: 1.09
+epoch 15 iteration200, Loss: 0.736209511756897, Train Steps/Sec: 1.09
+Finish sampling
