@@ -4,16 +4,19 @@
 # This work is licensed under the NVIDIA Source Code License
 # for Denoising Diffusion GAN. To view a copy of this license, see the LICENSE file.
 # ---------------------------------------------------------------
-
 import argparse
 import os
 import shutil
 from functools import partial
 from time import time
+import math 
+import pickle
+
 
 import torch
 from omegaconf import OmegaConf
-
+import numpy as np
+from ddp_utils import init_processes
 import torch.nn.functional as F
 import torch.optim as optim
 import torchvision
@@ -23,6 +26,35 @@ from datasets_prep import get_dataset
 from EMA import EMA
 from models import create_network
 from torchdiffeq import odeint_adjoint as odeint
+from torch.utils.tensorboard import SummaryWriter
+from math import pi
+import numpy as np
+from scipy.optimize import root_scalar
+
+import os
+import numpy as np
+from scipy.optimize import root_scalar
+import torch.nn as nn
+import torchvision.models as models
+from torchvision.models import inception_v3
+from scipy.linalg import sqrtm
+from diffusers.models import AutoencoderKL
+from collections import OrderedDict
+from copy import deepcopy
+from scipy.optimize import linear_sum_assignment
+import gc
+import psutil
+def compute_distance(tensor1, tensor2):
+    # 计算两个tensor之间的距离，这里使用Euclidean距离
+    return torch.norm(tensor1 - tensor2).item()
+import random
+import torch
+import numpy as np
+from scipy.optimize import linear_sum_assignment
+from concurrent.futures import ThreadPoolExecutor
+import linecache
+import ast
+import shutil
 
 # faster training
 torch.backends.cuda.matmul.allow_tf32 = True
@@ -32,6 +64,14 @@ torch.backends.cudnn.allow_tf32 = True
 def copy_source(file, output_dir):
     shutil.copyfile(file, os.path.join(output_dir, os.path.basename(file)))
 
+class ScaledTanh(nn.Module):
+    def __init__(self, lower, upper):
+        super().__init__()
+        self.lower = lower
+        self.upper = upper
+
+    def forward(self, x):
+        return (torch.tanh(x) + 1) / 2 * (self.upper - self.lower) + self.lower
 
 def get_weight(model):
     size_all_mb = sum(p.numel() for p in model.parameters()) / 1024**2
@@ -72,6 +112,8 @@ def train(args):
     if args.use_grad_checkpointing and "DiT" in args.model_type:
         model.set_gradient_checkpointing()
 
+    offset_model = nn.Sequential(nn.Linear(3, 1),ScaledTanh(-0.1,0.1)).to(device, dtype=dtype)
+    
     first_stage_model = AutoencoderKL.from_pretrained(args.pretrained_autoencoder_ckpt).to(device, dtype=dtype)
     first_stage_model = first_stage_model.eval()
     first_stage_model.train = False
@@ -80,9 +122,10 @@ def train(args):
 
     accelerator.print("AutoKL size: {:.3f}MB".format(get_weight(first_stage_model)))
     accelerator.print("FM size: {:.3f}MB".format(get_weight(model)))
+    accelerator.print("offset model size: {:.10f}MB".format(get_weight(offset_model)))
 
-    optimizer = optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.0)
-
+    optimizer = torch.optim.Adam(list(offset_model.parameters()) + list(model.parameters()), lr=args.lr, weight_decay=0.0)
+    
     if args.use_ema:
         optimizer = EMA(optimizer, ema_decay=args.ema_decay)
         
@@ -157,11 +200,30 @@ def train(args):
             # sample t
             t = torch.rand((z_0.size(0),), dtype=dtype, device=device)
             t = t.view(-1, 1, 1, 1)
+            t_origin = t
             z_1 = torch.randn_like(z_0)
             # 1 is real noise, 0 is real data
             z_t = (1 - t) * z_0 + (1e-5 + (1 - 1e-5) * t) * z_1
+            
+            offset = True
+            if offset == True:
+                # 将这两个张量转换为一维张量
+                z0_flattened = z_0.reshape(-1, 1)
+                z1_flattened = z_1.reshape(-1, 1)
+                t = t.expand(batch_size,4,32,32)
+                t_flattened = t.reshape(-1, 1)
+                
+                # 将这两个一维张量拼接在一起
+                input = torch.cat((z0_flattened, z1_flattened, t_flattened), dim=1).to('cuda')
+                z_t_offset = offset_model(input)
+                # cosine_anneal = cosine_annealing_lr(epoch, eta_max, eta_min, T_max)
+                cos_2x = 2 * math.cos(pi/40 * epoch + 2*pi) / (np.power(2,(pi/40 * epoch + 2*pi)/(2*pi)))
+                z_t = z_t + z_t_offset.reshape(batch_size, 4, 32, 32) * cos_2x
+            
+            
             u = (1 - 1e-5) * z_1 - z_0
             # estimate velocity
+            t = t_origin
             v = model(t.squeeze(), z_t, y)
             loss = F.mse_loss(v, u)
             accelerator.backward(loss)
@@ -181,6 +243,8 @@ def train(args):
                     # Reset monitoring variables:
                     log_steps = 0
                     start_time = time()
+                    
+        writer.add_scalar('celebA256-loss/adm_offset_bn112', loss.item(), global_step)
 
         if not args.no_lr_decay:
             scheduler.step()

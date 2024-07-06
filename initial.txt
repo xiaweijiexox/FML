@@ -55,3 +55,26 @@ epoch 15 iteration0, Loss: 0.7192071080207825, Train Steps/Sec: 1.07
 epoch 15 iteration100, Loss: 0.7107565402984619, Train Steps/Sec: 1.09
 epoch 15 iteration200, Loss: 0.736209511756897, Train Steps/Sec: 1.09
 Finish sampling
+epoch 16 iteration0, Loss: 0.7205315232276917, Train Steps/Sec: 1.03
+epoch 16 iteration100, Loss: 0.7558024525642395, Train Steps/Sec: 1.09
+epoch 16 iteration200, Loss: 0.7145891785621643, Train Steps/Sec: 1.09
+epoch 17 iteration0, Loss: 0.7283838987350464, Train Steps/Sec: 1.07
+epoch 17 iteration100, Loss: 0.7399869561195374, Train Steps/Sec: 1.09
+epoch 17 iteration200, Loss: 0.7324864864349365, Train Steps/Sec: 1.09
+epoch 18 iteration0, Loss: 0.7030934691429138, Train Steps/Sec: 1.06
+epoch 18 iteration100, Loss: 0.7072309851646423, Train Steps/Sec: 1.10
+epoch 18 iteration200, Loss: 0.7463993430137634, Train Steps/Sec: 1.10
+epoch 19 iteration0, Loss: 0.7140666842460632, Train Steps/Sec: 1.07
+epoch 19 iteration100, Loss: 0.7301369309425354, Train Steps/Sec: 1.10
+epoch 19 iteration200, Loss: 0.7107450366020203, Train Steps/Sec: 1.10
+epoch 20 iteration0, Loss: 0.710972249507904, Train Steps/Sec: 1.07
+epoch 20 iteration100, Loss: 0.7024547457695007, Train Steps/Sec: 1.10
+epoch 20 iteration200, Loss: 0.7073355913162231, Train Steps/Sec: 1.10
+Finish sampling
+Saving content.
+epoch 21 iteration0, Loss: 0.7042434215545654, Train Steps/Sec: 0.92
+epoch 21 iteration100, Loss: 0.6997197866439819, Train Steps/Sec: 1.10
+epoch 21 iteration200, Loss: 0.703852117061615, Train Steps/Sec: 1.10
+epoch 22 iteration0, Loss: 0.6892955303192139, Train Steps/Sec: 1.07
+epoch 22 iteration100, Loss: 0.7008892893791199, Train Steps/Sec: 1.10
+epoch 22 iteration200, Loss: 0.6971431970596313, Train Steps/Sec: 1.10
