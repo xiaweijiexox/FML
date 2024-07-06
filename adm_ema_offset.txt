@@ -2,3 +2,6 @@ AutoKL size: 79.779MB
 FM size: 146.007MB
 offset model size: 0.0000038147MB
 Exp path: ./saved_info/latent_flow/celeba_256/celeb256_f8_adm_ema_offset
+epoch 0 iteration0, Loss: 1.7675968408584595, Train Steps/Sec: 0.14
+epoch 0 iteration100, Loss: 1.2957524061203003, Train Steps/Sec: 1.11
+epoch 0 iteration200, Loss: 1.1153755187988281, Train Steps/Sec: 1.10

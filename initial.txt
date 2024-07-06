@@ -78,3 +78,6 @@ epoch 21 iteration200, Loss: 0.703852117061615, Train Steps/Sec: 1.10
 epoch 22 iteration0, Loss: 0.6892955303192139, Train Steps/Sec: 1.07
 epoch 22 iteration100, Loss: 0.7008892893791199, Train Steps/Sec: 1.10
 epoch 22 iteration200, Loss: 0.6971431970596313, Train Steps/Sec: 1.10
+epoch 23 iteration0, Loss: 0.7115813493728638, Train Steps/Sec: 1.07
+epoch 23 iteration100, Loss: 0.7003423571586609, Train Steps/Sec: 1.10
+epoch 23 iteration200, Loss: 0.6971598863601685, Train Steps/Sec: 1.10
