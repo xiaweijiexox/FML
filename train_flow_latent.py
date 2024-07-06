@@ -321,7 +321,7 @@ if __name__ == "__main__":
     parser.add_argument("--beta2", type=float, default=0.9, help="beta2 for adam")
     parser.add_argument("--no_lr_decay", action="store_true", default=False)
 
-    parser.add_argument("--use_ema", action="store_true", default=False, help="use EMA or not")
+    parser.add_argument("--use_ema", action="store_true", default=True, help="use EMA or not")
     parser.add_argument("--ema_decay", type=float, default=0.9999, help="decay rate for EMA")
 
     parser.add_argument("--save_content", action="store_true", default=False)
