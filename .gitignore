@@ -17,5 +17,6 @@ celeba_test/
 *.png
 *.jpg
 *.log
+*.txt
 data/
 slurm_scripts/
