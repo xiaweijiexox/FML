@@ -1,0 +1,10 @@
+export MODEL_TYPE=adm
+export EPOCH_ID=450
+export DATASET=celeba_256
+export EXP=celeb256_f8_adm
+export METHOD=dopri5
+export STEPS=0
+export USE_ORIGIN_ADM=true
+export IMG_SIZE=256
+export CH_MULT="1 2 2 2"
+export ATTN_RES="16 8"

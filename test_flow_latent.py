@@ -23,10 +23,17 @@ from torch.multiprocessing import Process
 from torchdiffeq import odeint_adjoint as odeint
 from tqdm import tqdm
 
+print(torch.cuda.device_count())
+import os
 
+
+
+PYTORCH_CUDA_ALLOC_CONF=True
 ADAPTIVE_SOLVER = ["dopri5", "dopri8", "adaptive_heun", "bosh3"]
 FIXER_SOLVER = ["euler", "rk4", "midpoint", "stochastic"]
+torch.cuda.empty_cache()
 
+# torch.cuda.set_device(1)
 
 class NFECount(nn.Module):
     def __init__(self, model):
@@ -130,22 +137,37 @@ def sample_and_test(rank, gpu, args):
     model = create_network(args).to(device)
     first_stage_model = AutoencoderKL.from_pretrained(args.pretrained_autoencoder_ckpt).to(device)
 
+    # ckpt = torch.load(
+    #     "/home/tsinghuaair/xwj/LFM/saved_info/latent_flow/celeba_256/celeb256_f8_adm_offset_2cosx2x_pi40_bn56/model_550.pth",
+    #     map_location=device,
+    # )
+    
     ckpt = torch.load(
-        "./saved_info/latent_flow/{}/{}/model_{}.pth".format(args.dataset, args.exp, args.epoch_id),
+        "/home/tsinghuaair/xwj/ema/LFM/saved_info/latent_flow/celeba_256/celeb256_f8_adm_ema/model_475.pth",
         map_location=device,
     )
-
+    
+    
+    
     print("Finish loading model")
-    # loading weights from ddp in single gpu
-    for key in list(ckpt.keys()):
-        ckpt[key[7:]] = ckpt.pop(key)
+    
+    print("Keys in checkpoint:")
+    
+    # #loading weights from ddp in single gpu
+    # for key in list(ckpt.keys()):
+    #     ckpt[key[7:]] = ckpt.pop(key)
+    # 我终于理解了，这个pop不是pop掉模型参数，而是pop掉"module."这个前缀
+    # for idx, key in enumerate(ckpt.keys(), start=1):
+    #     print(f"{idx}. {key}")    
+    
     model.load_state_dict(ckpt, strict=True)
     model.eval()
 
     del ckpt
 
     iters_needed = args.n_sample // args.batch_size
-    save_dir = "./generated_samples/{}/exp{}_ep{}_m{}".format(args.dataset, args.exp, args.epoch_id, args.method)
+    save_dir = "./generated_samples/celeba-256-adm-ema-475epoch"
+    # save_dir = "./generated_samples/celeba-256-adm-cosx2x-bn36-550epoch"
     
     if args.method in FIXER_SOLVER:
         save_dir += "_s{}".format(args.num_steps)
@@ -159,7 +181,7 @@ def sample_and_test(rank, gpu, args):
     generator = get_generator(args.generator, args.n_sample, seed)
 
     def run_sampling(num_samples, generator, cls_index=None):
-        x = generator.randn(num_samples, 4, args.image_size // 8, args.image_size // 8).to(device)
+        x = generator.randn(num_samples, 4, args.image_size // 8, args.image_size // 8).to(device) 
         if args.num_classes in [None, 1]:
             model_kwargs = {}
         else:
@@ -298,7 +320,6 @@ def sample_and_test(rank, gpu, args):
         torchvision.utils.save_image(fake_image, save_path, padding=0, nrow=8)
         print("Samples are save at '{}".format(save_path))
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("flow-matching parameters")
     parser.add_argument(
@@ -309,10 +330,10 @@ if __name__ == "__main__":
         choices=["dummy", "determ", "determ-indiv"],
     )
     parser.add_argument("--seed", type=int, default=42, help="seed used for initialization")
-    parser.add_argument("--compute_fid", action="store_true", default=False, help="whether or not compute FID")
+    parser.add_argument("--compute_fid", action="store_true", default=True, help="whether or not compute FID")
     parser.add_argument("--compute_nfe", action="store_true", default=False, help="whether or not compute NFE")
     parser.add_argument("--measure_time", action="store_true", default=False, help="wheter or not measure time")
-    parser.add_argument("--epoch_id", type=int, default=1000)
+    parser.add_argument("--epoch_id", type=int, default=250)
     parser.add_argument("--n_sample", type=int, default=50000, help="number of sampled images")
 
     parser.add_argument(
@@ -322,7 +343,7 @@ if __name__ == "__main__":
         help="model_type",
         choices=["adm", "ncsn++", "ddpm++", "DiT-B/2", "DiT-L/2", "DiT-XL/2"],
     )
-    parser.add_argument("--image_size", type=int, default=32, help="size of image")
+    parser.add_argument("--image_size", type=int, default=256, help="size of image")
     parser.add_argument("--f", type=int, default=8, help="downsample rate of input image by the autoencoder")
     parser.add_argument("--scale_factor", type=float, default=0.18215, help="size of image")
     parser.add_argument("--num_in_channels", type=int, default=3, help="in channel image")
@@ -361,15 +382,15 @@ if __name__ == "__main__":
     parser.add_argument("--output_log", type=str, default="")
 
     #######################################
-    parser.add_argument("--exp", default="experiment_cifar_default", help="name of experiment")
+    parser.add_argument("--exp", default="experiment_celebA256", help="name of experiment")
     parser.add_argument(
         "--real_img_dir",
-        default="./pytorch_fid/cifar10_train_stat.npy",
+        default="./pytorch_fid/celebahq_stat.npy",
         help="directory to real images for FID computation",
     )
-    parser.add_argument("--dataset", default="cifar10", help="name of dataset")
+    parser.add_argument("--dataset", default="celeba_256", help="name of dataset")
     parser.add_argument("--num_steps", type=int, default=40)
-    parser.add_argument("--batch_size", type=int, default=200, help="sample generating batch size")
+    parser.add_argument("--batch_size", type=int, default=8, help="sample generating batch size")
 
     # sampling argument
     parser.add_argument("--use_karras_samplers", action="store_true", default=False)

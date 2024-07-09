@@ -7,7 +7,7 @@ if [ -z "$ATTN_RES" ]; then ATTN_RES="16 8 4"; fi
 if [ -z "$Bs" ]; then Bs=100; fi
 if [ -z "$BASE_CH" ]; then BASE_CH=256; fi
 
-export MASTER_PORT=12004
+export MASTER_PORT=12005
 export PYTHONPATH=$(pwd):$PYTHONPATH
 
 if [[ "${USE_ORIGIN_ADM}" = true ]]; then
