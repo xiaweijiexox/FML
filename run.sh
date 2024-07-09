@@ -1,5 +1,5 @@
 ############################################### ADM ~ CelebA 256 ###############################################
-accelerate launch --num_processes 1 train_flow_latent.py --exp celeb256_f8_adm_ema_offset \
+accelerate launch --num_processes 1 train_flow_latent.py --exp celeb256_f8_adm_ema_conv_bn112 \
     --dataset celeba_256 --datadir  dataset/celeba/celeba-lmdb\
     --batch_size 112 --num_epoch 600 \
     --image_size 256 --f 8 --num_in_channels 4 --num_out_channels 4 \
