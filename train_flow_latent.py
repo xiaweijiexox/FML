@@ -83,7 +83,7 @@ def sample_from_model(model, x_0):
     fake_image = odeint(model, x_0, t, atol=1e-5, rtol=1e-5, adjoint_params=model.func.parameters())
     return fake_image
 
-log_dir = "/home/tsinghuaair/xwj/LFM/logs"
+log_dir = "/home/tsinghuaair/xwj/ema/LFM/logs"
 writer = SummaryWriter(log_dir=log_dir)
 
 # %%
@@ -246,7 +246,7 @@ def train(args):
                     log_steps = 0
                     start_time = time()
                     
-        writer.add_scalar('celebA256-loss/adm_offset_bn112', loss.item(), global_step)
+        writer.add_scalar('celebA256-loss/adm_offset_bn56', loss.item(), global_step)
 
         if not args.no_lr_decay:
             scheduler.step()
