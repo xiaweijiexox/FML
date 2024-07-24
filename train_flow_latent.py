@@ -141,10 +141,22 @@ def train(args):
                 z_0 = x_0 * args.scale_factor
             else:
                 z_0 = first_stage_model.encode(x_0).latent_dist.sample().mul_(args.scale_factor)
+                
+            z_1 = torch.randn_like(z_0)
+            # 乘以尺度参数
+            z_0_scaled = z_0 * 3
+            # 将 z_scaled 映射到 (0, 1) 区间
+            z_0 = torch.sigmoid(z_0_scaled) 
+            
+            # 乘以尺度参数
+            z_1_scaled = z_0 * 3
+            # 将 z_scaled 映射到 (0, 1) 区间
+            z_1 = torch.sigmoid(z_1_scaled) 
+            
             # sample t
             t = torch.rand((z_0.size(0),), dtype=dtype, device=device)
             t = t.view(-1, 1, 1, 1)
-            z_1 = torch.randn_like(z_0)
+            
             # 1 is real noise, 0 is real data
             z_t = (1 - t) * z_0 + (1e-5 + (1 - 1e-5) * t) * z_1
             u = (1 - 1e-5) * z_1 - z_0
@@ -176,6 +188,11 @@ def train(args):
             if epoch % args.plot_every == 0:
                 with torch.no_grad():
                     rand = torch.randn_like(z_0)[:4]
+                    # 乘以尺度参数
+                    rand_scaled = rand * 3
+                    # 将 z_scaled 映射到 (0, 1) 区间
+                    rand = torch.sigmoid(rand_scaled) 
+                    
                     if y is not None:
                         y = y[:4]
                     sample_model = partial(model, y=y)
