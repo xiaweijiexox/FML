@@ -43,9 +43,7 @@ from copy import deepcopy
 from scipy.optimize import linear_sum_assignment
 import gc
 import psutil
-def compute_distance(tensor1, tensor2):
-    # 计算两个tensor之间的距离，这里使用Euclidean距离
-    return torch.norm(tensor1 - tensor2).item()
+
 import random
 import torch
 import numpy as np
@@ -53,6 +51,7 @@ from scipy.optimize import linear_sum_assignment
 from concurrent.futures import ThreadPoolExecutor
 import linecache
 import ast
+
 
 def compute_distance(tensor1, tensor2):
     # 计算两个tensor之间的距离，这里使用Euclidean距离
@@ -96,7 +95,7 @@ def compute_distance_matrix(list1, list2, start_idx, end_idx):
     
     for i in range(block_size_actual):
         for j in range(block_size_actual):
-            distance_matrix[i, j] = sliced_wasserstein_distance(list1[start_idx + i], list2[start_idx + j])
+            distance_matrix[i, j] = compute_distance(list1[start_idx + i], list2[start_idx + j])
     
     return distance_matrix
 
@@ -123,7 +122,7 @@ def reorder_list(list1, list2, block_size):
         
         for i in range(block_size_actual):
             for j in range(block_size_actual):
-                distance_matrix[i, j] = sliced_wasserstein_distance(list1[dict_for[start_idx + i]], list2[dict_for[start_idx + j]])
+                distance_matrix[i, j] = compute_distance(list1[dict_for[start_idx + i]], list2[dict_for[start_idx + j]])
         
         # 使用线性分配算法找到最小化总距离的排列
         row_ind, col_ind = linear_sum_assignment(distance_matrix)        

@@ -143,7 +143,7 @@ def sample_and_test(rank, gpu, args):
     # )
     
     ckpt = torch.load(
-        "/home/tsinghuaair/xwj/ema/LFM/saved_info/latent_flow/celeba_256/celeb256_f8_adm_ema/model_475.pth",
+        "",
         map_location=device,
     )
     
