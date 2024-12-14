@@ -1,11 +1,11 @@
 ## My contribution
-1. create an offset neural work in the flow matching model as a deterministic offset to overcome the oscillation ———— branch offset
-2. 
-3. redistribute the noise matrices to the image that has the nearest distant when training, simulate the idea of OT-CFM ———— branch conv
-4. 
-5. create a convolution method to match the shortest distance, without calculating too high dimension distance matrix ———— branch conv
-6. 
-7. use importance sampling when we sample the time ———— branch logit
+create an offset neural work in the flow matching model as a deterministic offset to overcome the oscillation ———— branch offset
+ 
+redistribute the noise matrices to the image that has the nearest distant when training, simulate the idea of OT-CFM ———— branch conv
+
+create a convolution method to match the shortest distance, without calculating too high dimension distance matrix ———— branch conv
+
+use importance sampling when we sample the time ———— branch logit
 
 
 ## Installation
