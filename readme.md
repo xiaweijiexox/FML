@@ -9,7 +9,7 @@ use importance sampling when we sample the time ———— branch logit
 
 Finally, the advantages are mainly in the earlier convergence stage and the better qualitative outcome
 
-(xiaweijiexox is the student author)
+(xiaweijiexox is the student author, and the main innovation is in the /model/train_flow_latent.py)
 
 ## Installation
 
