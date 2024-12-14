@@ -9,7 +9,9 @@ use importance sampling when we sample the time ———— branch logit
 
 Finally, the advantages are mainly in the earlier convergence stage and the better qualitative outcome
 
-(xiaweijiexox is the student author, and the main innovation is in the /model/train_flow_latent.py)
+(xiaweijiexox is the student author, and the main innovation is in the /model/train_flow_latent.py
+
+The baseline is https://github.com/VinAIResearch/LFM)
 
 ## Installation
 
@@ -186,10 +188,3 @@ python pytorch_fid/compute_dataset_stat.py \
 
 </details>
 
-## Acknowledgments
-
-Our codes are accumulated from different sources: [EDM](https://github.com/NVlabs/edm), [DiT](https://github.com/facebookresearch/DiT.git), [ADM](https://github.com/openai/guided-diffusion), [CD](https://github.com/openai/consistency_models.git), [Flow Matching in 100 LOC by François Rozet](https://gist.github.com/fd6a820e052157f8ac6e2aa39e16c1aa.git), and [WaveDiff](https://github.com/VinAIResearch/WaveDiff). We greatly appreciate these publicly available resources for research and development.
-
-## Contacts
-
-If you have any problems, please open an issue in this repository or ping an email to [v.quandm7@vinai.io](mailto:v.quandm7@vinai.io) / [tienhaophung@gmail.com](mailto:tienhaophung@gmail.com).
