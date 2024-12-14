@@ -1,47 +1,12 @@
-##### Table of contents
+## My contribution
+1. create an offset neural work in the flow matching model as a deterministic offset to overcome the oscillation ———— branch offset
+2. 
+3. redistribute the noise matrices to the image that has the nearest distant when training, simulate the idea of OT-CFM ———— branch conv
+4. 
+5. create a convolution method to match the shortest distance, without calculating too high dimension distance matrix ———— branch conv
+6. 
+7. use importance sampling when we sample the time ———— branch logit
 
-1. [Installation](#installation)
-2. [Dataset preparation](#dataset-preparation)
-3. [Training](#training)
-4. [Testing](#testing)
-5. [Acknowledgments](#acknowledgments)
-6. [Contacts](#contacts)
-
-# Official PyTorch implementation of "Flow Matching in Latent Space"
-
-<div align="center">
-  <a href="https://quandao10.github.io/" target="_blank">Quan&nbsp;Dao</a> &emsp; <b>&middot;</b> &emsp;
-  <a href="https://hao-pt.github.io/" target="_blank">Hao&nbsp;Phung</a> &emsp; <b>&middot;</b> &emsp;
-  <a href="https://tbng.github.io/" target="_blank">Binh&nbsp;Nguyen</a> &emsp; <b>&middot;</b> &emsp;
-  <a href="https://sites.google.com/site/anhttranusc/" target="_blank">Anh&nbsp;Tran</a>
-  <br> <br>
-  <a href="https://www.vinai.io/">VinAI Research</a>
-  <br> <br>
-  &emsp;&emsp;<a href="https://vinairesearch.github.io/LFM/">[Page]</a> &emsp;&emsp;
-  <a href="https://arxiv.org/abs/2307.08698">[Paper]</a> &emsp;&emsp;
-  <!-- <a href="https://drive.google.com/file/d/1LSEYfdhS4Zjtx1VRrctmVt6xjEjgmpVA/view?usp=sharing">[Poster]</a> &emsp;&emsp;
-  <a href="https://drive.google.com/file/d/11JE-RFtYJWx6XdXH8zZxgzRAvGJ6-IV2/view?usp=sharing">[Slides]</a> &emsp;&emsp;
-  <a href="https://youtu.be/KaIMMamhKsU">[Video]</a> -->
-</div>
-<br>
-<div align="center">
-  <img width="1000" alt="teaser" src="assets/archi.svg"/>
-</div>
-
-> Abstract: Flow matching is a recent framework to train generative models that exhibits impressive empirical performance while being relatively easier to train compared with diffusion-based models. Despite its advantageous properties, prior methods still face the challenges of expensive computing and a large number of function evaluations of off-the-shelf solvers in the pixel space. Furthermore, although latent-based generative methods have shown great success in recent years, this particular model type remains underexplored in this area. In this work, we propose to apply flow matching in the latent spaces of pretrained autoencoders, which offers improved computational efficiency and scalability for high-resolution image synthesis. This enables flow-matching training on constrained computational resources while maintaining their quality and flexibility. Additionally, our work stands as a pioneering contribution in the integration of various conditions into flow matching for conditional generation tasks, including label-conditioned image generation, image inpainting, and semantic-to-image generation. Through extensive experiments, our approach demonstrates its effectiveness in both quantitative and qualitative results on various datasets, such as CelebA-HQ, FFHQ, LSUN Church & Bedroom, and ImageNet. We also provide a theoretical control of the Wasserstein-2 distance between the reconstructed latent flow distribution and true data distribution, showing it is upper-bounded by the latent flow matching objective.
-
-Details of the model architectures and experimental results can be found in [our following paper](https://arxiv.org/abs/2307.08698):
-
-```bibtex
-@article{dao2023lfm,
-    author    = {Quan Dao and Hao Phung and Binh Nguyen and Anh Tran},
-    title     = {Flow Matching in Latent Space},
-    journal   = {arXiv preprint arXiv:2307.08698},
-    year      = {2023}
-}
-```
-
-**Please CITE** our paper whenever this repository is used to help produce published results or incorporated into other software.
 
 ## Installation
 
