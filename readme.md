@@ -78,7 +78,7 @@ $$
 
 **475 epochs, 全量数据,CelebA 256:** 大量样本存在明显的结构变形("一缕扭曲的风吹过"),变形成鬼脸的概率较高。
 
-相关定性分析、Fokker-Planck 视角下的 FM vs DDPM 对比、以及"方差过大 → 鬼脸"的机制推导,见 [technical report](./report.pdf)。
+相关定性分析、Fokker-Planck 视角下的 FM vs DDPM 对比、以及"方差过大 → 鬼脸"的机制推导,见 [technical report](technical-report.pdf)。
 
 ---
 
